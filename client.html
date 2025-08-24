@@ -429,11 +429,24 @@
                 <div id="profile" class="page hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-gray-800">My Profile</h2>
-                        <button id="edit-profile-btn" onclick="toggleProfileEdit()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center">
-                            <i data-lucide="edit-3" class="w-4 h-4 mr-2"></i><span id="edit-btn-text">Edit Profile</span>
-                        </button>
+                        <div class="flex">
+                            <button onclick="navigate(event, 'dashboard')" class="px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 flex items-center mr-2">
+                                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>Back to Dashboard
+                            </button>
+                            <button id="edit-profile-btn" onclick="toggleProfileEdit()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center">
+                                <i data-lucide="edit-3" class="w-4 h-4 mr-2"></i><span id="edit-btn-text">Edit Profile</span>
+                            </button>
+                        </div>
                     </div>
                      <div class="bg-white p-8 rounded-lg shadow-sm">
+                        <div class="flex items-center space-x-6 mb-8">
+                            <img id="profile-picture" src="https://placehold.co/100x100/E2E8F0/475569?text=JD" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover">
+                            <div>
+                                <button id="upload-btn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Upload Picture</button>
+                                <input type="file" id="file-upload" class="hidden" accept="image/*">
+                                <p class="text-xs text-gray-500 mt-2">PNG, JPG, GIF up to 10MB</p>
+                            </div>
+                        </div>
                         <h3 class="text-xl font-semibold mb-6">Personnel Information</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
                             <div>
@@ -529,6 +542,25 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             document.getElementById('dashboard').classList.remove('hidden');
+
+            const uploadBtn = document.getElementById('upload-btn');
+            const fileUpload = document.getElementById('file-upload');
+            const profilePicture = document.getElementById('profile-picture');
+
+            uploadBtn.addEventListener('click', () => {
+                fileUpload.click();
+            });
+
+            fileUpload.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        profilePicture.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         });
 
         let isEditMode = false;
@@ -559,6 +591,7 @@
                     const editEl = document.getElementById(`${field}-input`);
                     viewEl.textContent = editEl.value;
                 }
+                showToast('Save successfully');
             }
 
             const editBtnText = document.getElementById('edit-btn-text');
@@ -572,6 +605,25 @@
                 editBtnIcon.setAttribute('data-lucide', 'edit-3');
             }
             lucide.createIcons();
+        }
+
+        function showToast(message) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md flex items-center z-50';
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i>
+                <span>${message}</span>
+            `;
+
+            // Append to body
+            document.body.appendChild(toast);
+            lucide.createIcons();
+
+            // Remove after 2 seconds
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 2000);
         }
     </script>
 </body>
