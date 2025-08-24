@@ -429,23 +429,52 @@
                 <div id="profile" class="page hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-gray-800">My Profile</h2>
-                        <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center">
-                            <i data-lucide="edit-3" class="w-4 h-4 mr-2"></i>Edit Profile
+                        <button id="edit-profile-btn" onclick="toggleProfileEdit()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center">
+                            <i data-lucide="edit-3" class="w-4 h-4 mr-2"></i><span id="edit-btn-text">Edit Profile</span>
                         </button>
                     </div>
                      <div class="bg-white p-8 rounded-lg shadow-sm">
                         <h3 class="text-xl font-semibold mb-6">Personnel Information</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div><p class="text-sm text-gray-500">Full Name</p><p class="font-medium text-gray-800">Juan Dela Cruz</p></div>
-                            <div><p class="text-sm text-gray-500">Rank</p><p class="font-medium text-gray-800">Jail Inspector (JINSP)</p></div>
-                            <div><p class="text-sm text-gray-500">Personnel ID</p><p class="font-medium text-gray-800">12345</p></div>
-                            <div><p class="text-sm text-gray-500">Unit Assignment</p><p class="font-medium text-gray-800">DHRD, National Headquarters</p></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+                            <div>
+                                <label for="first-name-input" class="text-sm text-gray-500">First Name</label>
+                                <p id="first-name" class="font-medium text-gray-800 profile-view">Juan</p>
+                                <input type="text" id="first-name-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="Juan">
+                            </div>
+                            <div>
+                                <label for="last-name-input" class="text-sm text-gray-500">Last Name</label>
+                                <p id="last-name" class="font-medium text-gray-800 profile-view">Dela Cruz</p>
+                                <input type="text" id="last-name-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="Dela Cruz">
+                            </div>
+                            <div>
+                                <label for="rank-input" class="text-sm text-gray-500">Rank</label>
+                                <p id="rank" class="font-medium text-gray-800 profile-view">Jail Inspector (JINSP)</p>
+                                <input type="text" id="rank-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="Jail Inspector (JINSP)">
+                            </div>
+                            <div>
+                                <label for="personnel-id-input" class="text-sm text-gray-500">Personnel ID</label>
+                                <p id="personnel-id" class="font-medium text-gray-800 profile-view">12345</p>
+                                <input type="text" id="personnel-id-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="12345">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="unit-input" class="text-sm text-gray-500">Unit Assignment</label>
+                                <p id="unit" class="font-medium text-gray-800 profile-view">DHRD, National Headquarters</p>
+                                <input type="text" id="unit-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="DHRD, National Headquarters">
+                            </div>
                         </div>
                         <div class="border-t my-6"></div>
                         <h3 class="text-xl font-semibold mb-6">Contact Information</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div><p class="text-sm text-gray-500">Email Address</p><p class="font-medium text-gray-800">j.delacruz@bjmp.gov.ph</p></div>
-                            <div><p class="text-sm text-gray-500">Phone Number</p><p class="font-medium text-gray-800">0917-123-4567</p></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+                            <div>
+                                <label for="email-input" class="text-sm text-gray-500">Email Address</label>
+                                <p id="email" class="font-medium text-gray-800 profile-view">j.delacruz@bjmp.gov.ph</p>
+                                <input type="email" id="email-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="j.delacruz@bjmp.gov.ph">
+                            </div>
+                            <div>
+                                <label for="phone-input" class="text-sm text-gray-500">Phone Number</label>
+                                <p id="phone" class="font-medium text-gray-800 profile-view">0917-123-4567</p>
+                                <input type="tel" id="phone-input" class="font-medium text-gray-800 border rounded px-2 py-1 w-full profile-edit hidden" value="0917-123-4567">
+                            </div>
                         </div>
                      </div>
                 </div>
@@ -501,6 +530,49 @@
             lucide.createIcons();
             document.getElementById('dashboard').classList.remove('hidden');
         });
+
+        let isEditMode = false;
+        const profileFields = [
+            'first-name', 'last-name', 'rank',
+            'personnel-id', 'unit', 'email', 'phone'
+        ];
+        const profileViewElements = document.querySelectorAll('.profile-view');
+        const profileEditElements = document.querySelectorAll('.profile-edit');
+
+        function toggleProfileEdit() {
+            isEditMode = !isEditMode;
+
+            profileViewElements.forEach(el => el.classList.toggle('hidden'));
+            profileEditElements.forEach(el => el.classList.toggle('hidden'));
+
+            if (isEditMode) {
+                // Entering edit mode, populate inputs from view elements
+                for (const field of profileFields) {
+                    const viewEl = document.getElementById(field);
+                    const editEl = document.getElementById(`${field}-input`);
+                    editEl.value = viewEl.textContent;
+                }
+            } else {
+                // Saving changes, populate view elements from inputs
+                for (const field of profileFields) {
+                    const viewEl = document.getElementById(field);
+                    const editEl = document.getElementById(`${field}-input`);
+                    viewEl.textContent = editEl.value;
+                }
+            }
+
+            const editBtnText = document.getElementById('edit-btn-text');
+            const editBtnIcon = document.querySelector('#edit-profile-btn i');
+
+            if (isEditMode) {
+                editBtnText.textContent = 'Save Changes';
+                editBtnIcon.setAttribute('data-lucide', 'save');
+            } else {
+                editBtnText.textContent = 'Edit Profile';
+                editBtnIcon.setAttribute('data-lucide', 'edit-3');
+            }
+            lucide.createIcons();
+        }
     </script>
 </body>
 </html>
