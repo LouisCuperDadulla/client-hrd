@@ -94,13 +94,13 @@
                     </button>
                 </div>
             </div>
-            
+
             <main class="p-6 md:p-8">
                 <!-- Dashboard Page -->
                 <div id="dashboard" class="page">
                     <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome back, JINSP Dela Cruz!</h2>
                     <p class="text-gray-600 mb-8">Here's a summary of your activities.</p>
-                    
+
                     <!-- Quick Stats -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                         <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
@@ -224,7 +224,7 @@
                                         <td class="py-4 px-6 whitespace-nowrap text-gray-500">5/30 Available</td>
                                         <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
                                             <button class="text-indigo-600 hover:text-indigo-900 mr-4">Details</button>
-                                            <button class="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">Apply</button>
+                                            <button onclick="openApplyModal()" class="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">Apply</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -233,7 +233,7 @@
                                         <td class="py-4 px-6 whitespace-nowrap text-gray-500">25/25 Available</td>
                                         <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
                                             <button class="text-indigo-600 hover:text-indigo-900 mr-4">Details</button>
-                                            <button class="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">Apply</button>
+                                            <button onclick="openApplyModal()" class="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">Apply</button>
                                         </td>
                                     </tr>
                                     <!-- More rows -->
@@ -495,10 +495,59 @@
         </div>
     </div>
 
+    <!-- Apply for Training Modal -->
+    <div id="apply-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center z-50">
+        <div class="relative mx-auto p-8 border w-full max-w-lg shadow-lg rounded-md bg-white">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">Apply for Training</h3>
+            <form id="apply-form">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium">Full Name</label>
+                        <input type="text" class="mt-1 block w-full rounded-md border-gray-300" value="JINSP Juan Dela Cruz" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Rank</label>
+                        <input type="text" class="mt-1 block w-full rounded-md border-gray-300" value="Jail Inspector (JINSP)" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Unit Assignment</label>
+                        <input type="text" class="mt-1 block w-full rounded-md border-gray-300" value="DHRD, National Headquarters" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Justification/Message (Optional)</label>
+                        <textarea class="mt-1 block w-full rounded-md border-gray-300" rows="3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Upload Documents</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="training-file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <span>Upload a file</span>
+                                        <input id="training-file-upload" name="training-file-upload" type="file" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PDF, DOCX, PNG, JPG up to 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-8 space-x-4">
+                    <button type="button" id="cancel-apply-btn" class="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Cancel</button>
+                    <button type="submit" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         function navigate(event, pageId) {
             event.preventDefault();
-            
+
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.add('hidden');
@@ -547,21 +596,51 @@
             const fileUpload = document.getElementById('file-upload');
             const profilePicture = document.getElementById('profile-picture');
 
-            uploadBtn.addEventListener('click', () => {
-                fileUpload.click();
-            });
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', () => {
+                    fileUpload.click();
+                });
+            }
 
-            fileUpload.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        profilePicture.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+            if (fileUpload) {
+                fileUpload.addEventListener('change', (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            profilePicture.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            const applyForm = document.getElementById('apply-form');
+            if (applyForm) {
+                applyForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const modal = document.getElementById('apply-modal');
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    showToast('Application submitted successfully!');
+                });
+            }
+
+            const cancelApplyBtn = document.getElementById('cancel-apply-btn');
+            if(cancelApplyBtn) {
+                cancelApplyBtn.addEventListener('click', () => {
+                    const modal = document.getElementById('apply-modal');
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                });
+            }
         });
+
+        function openApplyModal() {
+            const modal = document.getElementById('apply-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
 
         let isEditMode = false;
         const profileFields = [
@@ -611,18 +690,16 @@
             // Create toast element
             const toast = document.createElement('div');
             toast.className = 'fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md flex items-center z-50';
-            toast.innerHTML = `
-                <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i>
-                <span>${message}</span>
-            `;
+            toast.textContent = message;
 
             // Append to body
             document.body.appendChild(toast);
-            lucide.createIcons();
 
             // Remove after 2 seconds
             setTimeout(() => {
-                document.body.removeChild(toast);
+                if (toast.parentNode === document.body) {
+                    document.body.removeChild(toast);
+                }
             }, 2000);
         }
     </script>
