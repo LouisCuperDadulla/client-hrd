@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJMP HRIS - DHRD Verifier Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link.active {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div class="hidden md:flex flex-col w-64 bg-gray-800">
+            <div class="flex items-center justify-center h-20 shadow-md bg-white">
+                <img src="https://placehold.co/150x50/003366/FFFFFF?text=BJMP+Logo" alt="BJMP Logo" class="h-12">
+            </div>
+            <div class="flex flex-col flex-1 overflow-y-auto">
+                <nav class="flex-1 px-2 py-4 bg-blue-900">
+                    <a href="#dashboard" class="sidebar-link flex items-center px-4 py-2 text-gray-100 hover:bg-blue-700 rounded-md active" onclick="navigate(event, 'dashboard')">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="#verified" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'verified')">
+                        <i data-lucide="history" class="w-5 h-5 mr-3"></i>
+                        My Verified Items
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <div class="flex items-center justify-between h-20 bg-white border-b border-gray-200 px-6">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-semibold text-gray-800">Verifier Portal</h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-4 flex items-center">
+                        <div class="flex flex-col text-right">
+                           <span class="font-semibold text-sm text-gray-700">SJO4 David Reyes</span>
+                           <span class="text-xs text-gray-500">Role: Verifier</span>
+                        </div>
+                        <img class="w-10 h-10 ml-3 rounded-full object-cover" src="https://placehold.co/100x100/E2E8F0/475569?text=DR" alt="User Avatar">
+                    </div>
+                     <button class="ml-6 text-gray-500 hover:text-red-600">
+                        <i data-lucide="log-out" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <main class="p-6 md:p-8">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8">Verifier Dashboard</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100"><i data-lucide="file-search" class="w-8 h-8 text-yellow-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-lg text-gray-500">Pending Verification</p>
+                                <p class="text-3xl font-bold text-gray-800">15</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-red-100"><i data-lucide="file-x" class="w-8 h-8 text-red-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-lg text-gray-500">Returned to Encoder</p>
+                                <p class="text-3xl font-bold text-gray-800">2</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-green-100"><i data-lucide="check-circle-2" class="w-8 h-8 text-green-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-lg text-gray-500">Verified Today</p>
+                                <p class="text-3xl font-bold text-gray-800">18</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Verification Queue Table -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Verification Queue</h3>
+                        <p class="text-gray-600 mb-4">These requests have been processed by an Encoder and are awaiting your verification.</p>
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request Type</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Processed By</th>
+                                    <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr id="verify-request-1">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Dela Cruz</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Juan</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JINSP</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Training Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2 Maria Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-1')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-2">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Gomez</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Ana</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO3</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">IPCR Submission</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2 Maria Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-2')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-3">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Reyes</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Miguel</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO1</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Leave Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO3 Miguel Tan</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-3')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-4">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Isabella</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO2</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Training Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2 Maria Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-4')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-5">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Garcia</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Luis</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO4</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">IPCR Submission</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO3 Miguel Tan</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-5')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-6">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Cruz</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Sofia</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO1</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Training Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2 Maria Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-6')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-7">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Lim</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Daniel</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JINSP</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Leave Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO3 Miguel Tan</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-7')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-8">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Mercado</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Angela</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">IPCR Submission</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2 Maria Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-8')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-9">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Bautista</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Carlos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO1</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Training Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO3 Miguel Tan</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-9')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                                <tr id="verify-request-10">
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Aquino</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Patricia</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">JO2</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Leave Application</span></td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">SJO2 Maria Santos</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                        <button onclick="verifyRequest('verify-request-10')" class="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md hover:bg-yellow-600">Verify</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Verify Request Page -->
+                <div id="verifying" class="page hidden">
+                    <button onclick="navigate(event, 'dashboard')" class="flex items-center text-sm text-gray-600 hover:text-gray-800 mb-4">
+                        <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
+                        Back to Dashboard
+                    </button>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Verify Request</h2>
+                    <p class="text-gray-600 mb-6">Review all details for accuracy. Return to Encoder if corrections are needed, or verify and forward to the Approver.</p>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-sm">
+                        <!-- Submitted Information (Read-Only) -->
+                        <div class="border-b pb-6 mb-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Submitted Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
+                                <div><p class="text-sm text-gray-500">Last Name</p><p class="font-semibold text-lg text-gray-800">Dela Cruz</p></div>
+                                <div><p class="text-sm text-gray-500">First Name</p><p class="font-semibold text-lg text-gray-800">Juan</p></div>
+                                <div><p class="text-sm text-gray-500">Middle Name</p><p class="font-semibold text-lg text-gray-800">Perez</p></div>
+                                <div><p class="text-sm text-gray-500">Rank</p><p class="font-semibold text-lg text-gray-800">JINSP</p></div>
+                                <div><p class="text-sm text-gray-500">Request Type</p><p class="font-semibold text-lg text-gray-800">Training Application</p></div>
+                                <div><p class="text-sm text-gray-500">Date Submitted</p><p class="font-semibold text-lg text-gray-800">20 Aug 2025, 10:15 AM</p></div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div><p class="text-sm font-medium text-gray-600">Requested Training Course:</p><p class="text-md text-gray-800">Jail Security and Risk Management</p></div>
+                                <div><p class="text-sm font-medium text-gray-600">Attached Documents:</p><a href="#" class="text-blue-600 hover:underline flex items-center"><i data-lucide="file-text" class="w-4 h-4 mr-2"></i>PDS_DelaCruz.pdf</a></div>
+                            </div>
+                        </div>
+
+                        <!-- Encoder's Remarks (Read-Only) -->
+                        <div class="border-b pb-6 mb-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Encoder's Remarks</h3>
+                            <div class="bg-slate-50 p-4 rounded-md">
+                                <p class="text-sm text-gray-600">"Personnel has no pending administrative cases. All initial requirements appear to be complete. Forwarding for verification." - <span class="font-semibold">SJO2 Maria Santos</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Verifier's Section -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Verifier's Section</h3>
+                            <div>
+                                <label for="remarks" class="block text-sm font-medium text-gray-700">Verifier's Remarks (Required if returning to Encoder)</label>
+                                <textarea id="remarks" name="remarks" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="Add notes for the Approver or explain corrections needed for the Encoder..."></textarea>
+                            </div>
+                            <div class="flex justify-end mt-6 space-x-4">
+                                <button onclick="returnToEncoder()" class="px-6 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 flex items-center">
+                                    <i data-lucide="arrow-left-circle" class="w-4 h-4 mr-2"></i>
+                                    Return to Encoder
+                                </button>
+                                <button onclick="submitToApprover()" class="px-6 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 flex items-center">
+                                    <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i>
+                                    Verify & Forward to Approver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Verified Items Page -->
+                <div id="verified" class="page hidden">
+                     <h2 class="text-3xl font-bold text-gray-800 mb-8">My Verified Items</h2>
+                     <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Verification History</h3>
+                        <p class="text-gray-600 mb-4">This is a log of all requests you have processed.</p>
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request Type</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Verified</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Final Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Villanueva</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Marco</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">IPCR Submission</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">22 Aug 2025</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="font-semibold text-green-600">Forwarded to Approver</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Castillo</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Lara</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">Training Application</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">22 Aug 2025</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="font-semibold text-red-600">Returned to Encoder</span></td>
+                                </tr>
+                                 <tr>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Mendoza</td>
+                                    <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Leo</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">Leave Application</td>
+                                    <td class="py-4 px-6 whitespace-nowrap text-gray-500">21 Aug 2025</td>
+                                    <td class="py-4 px-6 whitespace-nowrap"><span class="font-semibold text-green-600">Forwarded to Approver</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
+                </div>
+
+                <!-- Success Modal -->
+                <div id="success-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center">
+                    <div class="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <div class="mt-3 text-center">
+                            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                                <i data-lucide="check" class="h-6 w-6 text-green-600"></i>
+                            </div>
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Success!</h3>
+                            <div class="mt-2 px-7 py-3">
+                                <p id="success-message" class="text-sm text-gray-500"></p>
+                            </div>
+                            <div class="items-center px-4 py-3">
+                                <button id="ok-btn" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        let currentVerifyRequestId = null;
+
+        function navigate(event, pageId) {
+            event.preventDefault();
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            lucide.createIcons();
+        }
+
+        function verifyRequest(requestId) {
+            currentVerifyRequestId = requestId;
+            navigate(new Event('click'), 'verifying');
+        }
+
+        function showSuccessModal(message) {
+            document.getElementById('success-message').textContent = message;
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            document.getElementById('ok-btn').onclick = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                navigate(new Event('click'), 'dashboard');
+            };
+        }
+
+        function submitToApprover() {
+            if (currentVerifyRequestId) {
+                const requestRow = document.getElementById(currentVerifyRequestId);
+                if (requestRow) requestRow.style.display = 'none';
+            }
+            showSuccessModal("The request has been verified and forwarded to the Approver's queue.");
+        }
+
+        function returnToEncoder() {
+            if (currentVerifyRequestId) {
+                const requestRow = document.getElementById(currentVerifyRequestId);
+                if (requestRow) requestRow.style.display = 'none';
+            }
+            showSuccessModal("The request has been returned to the Encoder with your remarks.");
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('dashboard').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

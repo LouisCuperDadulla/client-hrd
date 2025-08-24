@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJMP HRIS - DHRD Module</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link.active {
+            background-color: #1e3a8a; /* A darker blue */
+            color: white;
+        }
+        .tab-link.active {
+            border-bottom-color: #2563eb;
+            color: #2563eb;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div class="hidden md:flex flex-col w-64 bg-gray-800">
+            <div class="flex items-center justify-center h-20 shadow-md bg-white">
+                <img src="https://placehold.co/150x50/003366/FFFFFF?text=BJMP+Logo" alt="BJMP Logo" class="h-12">
+            </div>
+            <div class="flex flex-col flex-1 overflow-y-auto">
+                <nav class="flex-1 px-2 py-4 bg-blue-900">
+                    <a href="#dashboard" class="sidebar-link flex items-center px-4 py-2 text-gray-100 hover:bg-blue-700 rounded-md active" onclick="navigate(event, 'dashboard')">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="#training" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'training')">
+                        <i data-lucide="graduation-cap" class="w-5 h-5 mr-3"></i>
+                        My Training
+                    </a>
+                    <a href="#performance" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'performance')">
+                        <i data-lucide="target" class="w-5 h-5 mr-3"></i>
+                        My Performance
+                    </a>
+                    <a href="#documents" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'documents')">
+                        <i data-lucide="folder-open" class="w-5 h-5 mr-3"></i>
+                        Document Library
+                    </a>
+                    <a href="#profile" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'profile')">
+                        <i data-lucide="user-circle" class="w-5 h-5 mr-3"></i>
+                        My Profile
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <div class="flex items-center justify-between h-20 bg-white border-b border-gray-200 px-6">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-semibold text-gray-800">DHRD Portal</h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="relative">
+                        <button class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring">
+                            <i data-lucide="bell" class="w-6 h-6 text-gray-500"></i>
+                            <span class="absolute top-0 right-0 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    <div class="ml-4 flex items-center">
+                        <div class="flex flex-col text-right">
+                           <span class="font-semibold text-sm text-gray-700">JINSP Juan Dela Cruz</span>
+                           <span class="text-xs text-gray-500">Personnel ID: 12345</span>
+                        </div>
+                        <img class="w-10 h-10 ml-3 rounded-full object-cover" src="https://placehold.co/100x100/E2E8F0/475569?text=JD" alt="User Avatar">
+                    </div>
+                     <button class="ml-6 text-gray-500 hover:text-red-600">
+                        <i data-lucide="log-out" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <main class="p-6 md:p-8">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome back, JINSP Dela Cruz!</h2>
+                    <p class="text-gray-600 mb-8">Here's a summary of your activities.</p>
+                    
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100"><i data-lucide="award" class="w-6 h-6 text-blue-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Trainings Completed</p>
+                                <p class="text-2xl font-bold text-gray-800">12</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100"><i data-lucide="alert-circle" class="w-6 h-6 text-yellow-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Pending Tasks</p>
+                                <p class="text-2xl font-bold text-gray-800">3</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-green-100"><i data-lucide="calendar-check" class="w-6 h-6 text-green-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">SOC Days Remaining</p>
+                                <p class="text-2xl font-bold text-gray-800">180</p>
+                            </div>
+                        </div>
+                         <div class="bg-white p-6 rounded-lg shadow-sm flex items-center">
+                            <div class="p-3 rounded-full bg-indigo-100"><i data-lucide="file-check-2" class="w-6 h-6 text-indigo-600"></i></div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Last IPCR Rating</p>
+                                <p class="text-2xl font-bold text-gray-800">4.85</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Pending Actions -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Pending Actions</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                    <div>
+                                        <p class="font-semibold text-gray-700">Submit IPCR for Jan-Jun 2025</p>
+                                        <p class="text-sm text-gray-500">Deadline: 15 July 2025</p>
+                                    </div>
+                                    <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Go to Performance</button>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                    <div>
+                                        <p class="font-semibold text-gray-700">Complete Evaluation for "Leadership Training"</p>
+                                        <p class="text-sm text-gray-500">Completed on: 05 August 2025</p>
+                                    </div>
+                                    <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Evaluate Now</button>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                    <div>
+                                        <p class="font-semibold text-gray-700">Update Individual Development Plan (IDP)</p>
+                                        <p class="text-sm text-gray-500">Last updated: 10 Jan 2025</p>
+                                    </div>
+                                    <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Update IDP</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Upcoming Training -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Training</h3>
+                            <div class="space-y-4">
+                               <div class="flex items-start">
+                                    <div class="p-2 bg-blue-100 rounded-md"><i data-lucide="shield" class="w-5 h-5 text-blue-600"></i></div>
+                                    <div class="ml-3">
+                                        <p class="font-semibold text-gray-700">S.T.A.R Course</p>
+                                        <p class="text-sm text-gray-500">Starts: 01 Sep 2025</p>
+                                        <p class="text-sm text-gray-500">Status: <span class="font-medium text-green-600">Enrolled</span></p>
+                                    </div>
+                               </div>
+                               <div class="border-t border-gray-200 my-4"></div>
+                                <div class="flex items-start">
+                                    <div class="p-2 bg-blue-100 rounded-md"><i data-lucide="briefcase" class="w-5 h-5 text-blue-600"></i></div>
+                                    <div class="ml-3">
+                                        <p class="font-semibold text-gray-700">Finance Course</p>
+                                        <p class="text-sm text-gray-500">Starts: 15 Oct 2025</p>
+                                        <p class="text-sm text-gray-500">Status: <span class="font-medium text-yellow-600">Applied</span></p>
+                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Training Page -->
+                <div id="training" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">My Training & Development</h2>
+                    <div id="training-tabs" class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <a href="#" class="tab-link active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" onclick="switchTab(event, 'training-tabs', 'available-trainings')">Available Trainings</a>
+                            <a href="#" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="switchTab(event, 'training-tabs', 'my-trainings')">My Training History</a>
+                            <a href="#" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="switchTab(event, 'training-tabs', 'my-certificates')">My Certificates</a>
+                            <a href="#" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="switchTab(event, 'training-tabs', 'soc')">Service Obligation</a>
+                        </nav>
+                    </div>
+
+                    <div id="available-trainings" class="tab-content">
+                        <!-- Available Trainings Content -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold">L&D Calendar 2025</h3>
+                                <div class="w-1/3">
+                                    <input type="text" placeholder="Search trainings..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <table class="min-w-full bg-white">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Title</th>
+                                        <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Schedule</th>
+                                        <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slots</th>
+                                        <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">S.T.A.R Course</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-gray-500">01 Sep - 30 Sep 2025</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-gray-500">5/30 Available</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                            <button class="text-indigo-600 hover:text-indigo-900 mr-4">Details</button>
+                                            <button class="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">Apply</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Finance Course</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-gray-500">15 Oct - 15 Nov 2025</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-gray-500">25/25 Available</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                            <button class="text-indigo-600 hover:text-indigo-900 mr-4">Details</button>
+                                            <button class="px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">Apply</button>
+                                        </td>
+                                    </tr>
+                                    <!-- More rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="my-trainings" class="tab-content hidden">
+                        <!-- My Training History Content -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Training History</h3>
+                            <!-- Training item -->
+                            <div class="border rounded-lg p-4 mb-4">
+                                <div class="flex justify-between items-center">
+                                    <p class="font-bold text-lg text-blue-800">Advanced Leadership and Management Course</p>
+                                    <span class="text-sm font-semibold text-white bg-green-600 px-3 py-1 rounded-full">Completed</span>
+                                </div>
+                                <div class="flex space-x-8 text-sm text-gray-600 mt-2">
+                                    <span><span class="font-semibold">Date Completed:</span> 05 Aug 2025</span>
+                                    <span><span class="font-semibold">Hours:</span> 120</span>
+                                    <span><span class="font-semibold">Provider:</span> PPSC</span>
+                                </div>
+                                <div class="mt-4">
+                                    <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">View Certificate</button>
+                                    <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 ml-2">Submit Evaluation</button>
+                                </div>
+                            </div>
+                             <!-- Training item -->
+                            <div class="border rounded-lg p-4">
+                                <div class="flex justify-between items-center">
+                                    <p class="font-bold text-lg text-blue-800">Basic Jail Management Course</p>
+                                    <span class="text-sm font-semibold text-white bg-green-600 px-3 py-1 rounded-full">Completed</span>
+                                </div>
+                                <div class="flex space-x-8 text-sm text-gray-600 mt-2">
+                                    <span><span class="font-semibold">Date Completed:</span> 15 Mar 2024</span>
+                                    <span><span class="font-semibold">Hours:</span> 240</span>
+                                    <span><span class="font-semibold">Provider:</span> BJMPTI</span>
+                                </div>
+                                <div class="mt-4">
+                                    <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">View Certificate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="my-certificates" class="tab-content hidden">
+                        <!-- My Certificates Content -->
+                         <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">My Certificates</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                                <div class="border rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                                    <img src="https://placehold.co/200x150/F0F9FF/0284C7?text=Certificate" class="mx-auto mb-4 rounded">
+                                    <h4 class="font-semibold text-gray-800">Advanced Leadership</h4>
+                                    <p class="text-sm text-gray-500">Issued: 05 Aug 2025</p>
+                                    <button class="mt-2 w-full px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">View/Print</button>
+                                </div>
+                                <div class="border rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+                                    <img src="https://placehold.co/200x150/F0F9FF/0284C7?text=Certificate" class="mx-auto mb-4 rounded">
+                                    <h4 class="font-semibold text-gray-800">Basic Jail Management</h4>
+                                    <p class="text-sm text-gray-500">Issued: 15 Mar 2024</p>
+                                    <button class="mt-2 w-full px-3 py-1 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">View/Print</button>
+                                </div>
+                                <!-- More certificates -->
+                            </div>
+                        </div>
+                    </div>
+                    <div id="soc" class="tab-content hidden">
+                        <!-- Service Obligation Content -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Service Obligation Contract (SOC) Status</h3>
+                             <div class="border rounded-lg p-4 mb-4">
+                                <p class="font-bold text-lg text-blue-800">Advanced Leadership and Management Course</p>
+                                <div class="mt-4 grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Start Date</p>
+                                        <p class="text-lg font-semibold text-gray-800">06 Aug 2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">End Date</p>
+                                        <p class="text-lg font-semibold text-gray-800">05 Feb 2026</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Days Remaining</p>
+                                        <p class="text-lg font-bold text-green-600">180</p>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Performance Page -->
+                <div id="performance" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">My Performance</h2>
+                    <!-- Performance Tabs -->
+                     <div id="performance-tabs" class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <a href="#" class="tab-link active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" onclick="switchTab(event, 'performance-tabs', 'pcr')">Performance Commitment (IPCR)</a>
+                            <a href="#" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="switchTab(event, 'performance-tabs', 'idp')">Individual Development Plan (IDP)</a>
+                            <a href="#" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300" onclick="switchTab(event, 'performance-tabs', 'coaching')">Coaching & Mentoring</a>
+                        </nav>
+                    </div>
+
+                    <div id="pcr" class="tab-content">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold">IPCR History</h3>
+                                <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center"><i data-lucide="plus" class="w-4 h-4 mr-2"></i>Create New IPCR</button>
+                            </div>
+                            <table class="min-w-full bg-white">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Period</th>
+                                        <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Final Rating</th>
+                                        <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Jan - Jun 2025</td>
+                                        <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">For Submission</span></td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-gray-500">---</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                            <button class="text-indigo-600 hover:text-indigo-900">Update/Submit</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 px-6 whitespace-nowrap font-medium text-gray-900">Jul - Dec 2024</td>
+                                        <td class="py-4 px-6 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span></td>
+                                        <td class="py-4 px-6 whitespace-nowrap font-semibold text-gray-900">4.85</td>
+                                        <td class="py-4 px-6 whitespace-nowrap text-center text-sm font-medium">
+                                            <button class="text-indigo-600 hover:text-indigo-900">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="idp" class="tab-content hidden">
+                         <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">My Individual Development Plan</h3>
+                            <p class="text-gray-600 mb-4">This plan outlines your career goals and the competencies you need to develop. Last updated: 10 Jan 2025.</p>
+                             <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center"><i data-lucide="edit-3" class="w-4 h-4 mr-2"></i>Update My IDP</button>
+                        </div>
+                    </div>
+                    <div id="coaching" class="tab-content hidden">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4">Coaching & Mentoring Log</h3>
+                            <p class="text-gray-600 mb-4">Record your coaching sessions to track progress towards your goals.</p>
+                             <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center"><i data-lucide="plus" class="w-4 h-4 mr-2"></i>Log New Session</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Library Page -->
+                <div id="documents" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Document Library</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex space-x-2">
+                                <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md">All</button>
+                                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Manuals</button>
+                                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Policies & Guidelines</button>
+                                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Forms & Templates</button>
+                            </div>
+                            <div class="w-1/3">
+                                <input type="text" placeholder="Search documents..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">DHRD Manual 2025 Edition</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                            <li class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">IPCR Template (Jan-Jun 2025)</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Profile Page -->
+                <div id="profile" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">My Profile</h2>
+                     <div class="bg-white p-8 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-6">Personnel Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><p class="text-sm text-gray-500">Full Name</p><p class="font-medium text-gray-800">Juan Dela Cruz</p></div>
+                            <div><p class="text-sm text-gray-500">Rank</p><p class="font-medium text-gray-800">Jail Inspector (JINSP)</p></div>
+                            <div><p class="text-sm text-gray-500">Personnel ID</p><p class="font-medium text-gray-800">12345</p></div>
+                            <div><p class="text-sm text-gray-500">Unit Assignment</p><p class="font-medium text-gray-800">DHRD, National Headquarters</p></div>
+                        </div>
+                        <div class="border-t my-6"></div>
+                        <h3 class="text-xl font-semibold mb-6">Contact Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><p class="text-sm text-gray-500">Email Address</p><p class="font-medium text-gray-800">j.delacruz@bjmp.gov.ph</p></div>
+                            <div><p class="text-sm text-gray-500">Phone Number</p><p class="font-medium text-gray-800">0917-123-4567</p></div>
+                        </div>
+                     </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function navigate(event, pageId) {
+            event.preventDefault();
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Show the selected page
+            document.getElementById(pageId).classList.remove('hidden');
+
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        function switchTab(event, tabContainerId, tabContentId) {
+            event.preventDefault();
+            const tabContainer = document.getElementById(tabContainerId);
+
+            // Hide all tab content within the container
+            tabContainer.parentElement.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show the selected tab content
+            document.getElementById(tabContentId).classList.remove('hidden');
+
+            // Update active state for tabs
+            tabContainer.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('active');
+                link.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                link.classList.remove('border-blue-500', 'text-blue-600');
+
+            });
+            event.currentTarget.classList.add('active');
+            event.currentTarget.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+            event.currentTarget.classList.add('border-blue-500', 'text-blue-600');
+        }
+
+        // Set the initial page to dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('dashboard').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

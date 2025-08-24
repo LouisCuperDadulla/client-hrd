@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJMP HRIS - DHRD Admin Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link.active {
+            background-color: #1e3a8a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div class="hidden md:flex flex-col w-64 bg-gray-800">
+            <div class="flex items-center justify-center h-20 shadow-md bg-white">
+                <img src="https://placehold.co/150x50/003366/FFFFFF?text=BJMP+Logo" alt="BJMP Logo" class="h-12">
+            </div>
+            <div class="flex flex-col flex-1 overflow-y-auto">
+                <nav class="flex-1 px-2 py-4 bg-blue-900">
+                    <a href="#dashboard" class="sidebar-link flex items-center px-4 py-2 text-gray-100 hover:bg-blue-700 rounded-md active" onclick="navigate(event, 'dashboard')">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="#user-management" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'user-management')">
+                        <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+                        User Management
+                    </a>
+                    <a href="#settings" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'settings')">
+                        <i data-lucide="settings" class="w-5 h-5 mr-3"></i>
+                        System Settings
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <div class="flex items-center justify-between h-20 bg-white border-b border-gray-200 px-6">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-semibold text-gray-800">DHRD Admin Portal</h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-4 flex items-center">
+                        <div class="flex flex-col text-right">
+                           <span class="font-semibold text-sm text-gray-700">JINSP Admin User</span>
+                           <span class="text-xs text-gray-500">Role: Admin</span>
+                        </div>
+                        <img class="w-10 h-10 ml-3 rounded-full object-cover" src="https://placehold.co/100x100/E2E8F0/475569?text=AU" alt="User Avatar">
+                    </div>
+                     <button class="ml-6 text-gray-500 hover:text-red-600">
+                        <i data-lucide="log-out" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <main class="p-6 md:p-8">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Total Users</p>
+                            <p class="text-3xl font-bold text-gray-800">152</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Active Training Courses</p>
+                            <p class="text-3xl font-bold text-gray-800">25</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Pending Requests (All)</p>
+                            <p class="text-3xl font-bold text-gray-800">30</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">System Activity Log</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-sm"><span class="font-semibold text-gray-700 mr-2">10:45 AM:</span> JCSUPT Espinosa approved Training Application for JINSP Dela Cruz.</li>
+                            <li class="flex items-center text-sm"><span class="font-semibold text-gray-700 mr-2">10:30 AM:</span> SJO4 Reyes verified IPCR Submission for JO3 Gomez.</li>
+                            <li class="flex items-center text-sm"><span class="font-semibold text-gray-700 mr-2">10:15 AM:</span> SJO2 Santos processed new Training Application for JINSP Dela Cruz.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- User Management Page -->
+                <div id="user-management" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">User Management</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">System Users</h3>
+                            <button onclick="showUserModal()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center"><i data-lucide="plus" class="w-4 h-4 mr-2"></i>Add New User</button>
+                        </div>
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                    <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-table-body" class="divide-y divide-gray-200">
+                                <!-- User rows will be dynamically populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- System Settings Page -->
+                <div id="settings" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">System Settings</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-4">Manage Training Courses</h3>
+                        <p class="text-gray-600 mb-4">Add, edit, or remove training courses from the L&D Calendar.</p>
+                        <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Manage Courses</button>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-sm mt-8">
+                        <h3 class="text-xl font-semibold mb-4">Manage Document Library</h3>
+                        <p class="text-gray-600 mb-4">Upload or remove documents from the SME and Client Resource Library.</p>
+                        <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Manage Documents</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div id="user-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center z-50">
+        <div class="relative mx-auto p-8 border w-full max-w-lg shadow-lg rounded-md bg-white">
+            <h3 id="user-modal-title" class="text-2xl font-bold text-gray-800 mb-6">Add New User</h3>
+            <form id="user-form" onsubmit="saveUser(event)">
+                <input type="hidden" id="user-id">
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-medium">Last Name</label><input id="last-name" type="text" class="mt-1 block w-full rounded-md border-gray-300" required></div>
+                        <div><label class="block text-sm font-medium">First Name</label><input id="first-name" type="text" class="mt-1 block w-full rounded-md border-gray-300" required></div>
+                        <div><label class="block text-sm font-medium">Middle Name</label><input id="middle-name" type="text" class="mt-1 block w-full rounded-md border-gray-300"></div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Role</label>
+                        <select id="role" class="mt-1 block w-full rounded-md border-gray-300">
+                            <option>Client/User</option>
+                            <option>Encoder</option>
+                            <option>Verifier</option>
+                            <option>Approver</option>
+                            <option>SME</option>
+                            <option>Admin</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Status</label>
+                         <select id="status" class="mt-1 block w-full rounded-md border-gray-300">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-8 space-x-4">
+                    <button type="button" onclick="hideModal('user-modal')" class="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Cancel</button>
+                    <button type="submit" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center z-50">
+        <div class="relative mx-auto p-8 border w-full max-w-md shadow-lg rounded-md bg-white">
+             <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                    <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Delete User</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">
+                        Are you sure you want to delete this user? This action cannot be undone.
+                    </p>
+                </div>
+                <div class="items-center px-4 py-3 space-x-4">
+                    <button id="cancel-delete-btn" type="button" onclick="cancelDelete()" class="px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md w-24 shadow-sm hover:bg-gray-300">
+                        Cancel
+                    </button>
+                    <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md w-24 shadow-sm hover:bg-red-700">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
+    <script>
+        const initialUsers = [
+            { id: 1, lastName: 'Santos', firstName: 'Maria', middleName: 'C.', role: 'Encoder', status: 'Active' },
+            { id: 2, lastName: 'Reyes', firstName: 'David', middleName: 'L.', role: 'Verifier', status: 'Active' },
+            { id: 3, lastName: 'Espinosa', firstName: 'Ma Annie', middleName: 'A.', role: 'Approver', status: 'Active' },
+            { id: 4, lastName: 'Rizal', firstName: 'Jose', middleName: 'P.', role: 'SME', status: 'Active' },
+            { id: 5, lastName: 'Dela Cruz', firstName: 'Juan', middleName: 'P.', role: 'Client/User', status: 'Inactive' }
+        ];
+        let users = [...initialUsers];
+        let userIdToDelete = null;
+
+        function renderUsers() {
+            const userTableBody = document.getElementById('user-table-body');
+            userTableBody.innerHTML = '';
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.id = `user-${user.id}`;
+                const statusClass = user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                row.innerHTML = `
+                    <td class="py-4 px-6 font-medium">${user.lastName}, ${user.firstName} ${user.middleName}</td>
+                    <td class="py-4 px-6 text-gray-500">${user.role}</td>
+                    <td class="py-4 px-6"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">${user.status}</span></td>
+                    <td class="py-4 px-6 text-center text-sm space-x-2">
+                        <button onclick="editUser(${user.id})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+                        <button onclick="confirmDeleteUser(${user.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                `;
+                userTableBody.appendChild(row);
+            });
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+        
+        function showUserModal(user = null) {
+            const form = document.getElementById('user-form');
+            form.reset();
+            document.getElementById('user-id').value = '';
+            
+            const title = document.getElementById('user-modal-title');
+            if (user) {
+                title.textContent = 'Edit User';
+                document.getElementById('user-id').value = user.id;
+                document.getElementById('last-name').value = user.lastName;
+                document.getElementById('first-name').value = user.firstName;
+                document.getElementById('middle-name').value = user.middleName;
+                document.getElementById('role').value = user.role;
+                document.getElementById('status').value = user.status;
+            } else {
+                title.textContent = 'Add New User';
+            }
+            showModal('user-modal');
+        }
+
+        function saveUser(event) {
+            event.preventDefault();
+            const id = document.getElementById('user-id').value;
+            const userData = {
+                lastName: document.getElementById('last-name').value,
+                firstName: document.getElementById('first-name').value,
+                middleName: document.getElementById('middle-name').value,
+                role: document.getElementById('role').value,
+                status: document.getElementById('status').value,
+            };
+
+            if (id) { // Editing existing user
+                const index = users.findIndex(u => u.id == id);
+                users[index] = { ...users[index], ...userData };
+            } else { // Adding new user
+                userData.id = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+                users.unshift(userData);
+            }
+            renderUsers();
+            hideModal('user-modal');
+        }
+
+        function editUser(id) {
+            const user = users.find(u => u.id === id);
+            if (user) {
+                showUserModal(user);
+            }
+        }
+
+        function confirmDeleteUser(id) {
+            userIdToDelete = id;
+            showModal('delete-modal');
+        }
+
+        function cancelDelete() {
+            hideModal('delete-modal');
+            userIdToDelete = null;
+        }
+
+        function navigate(event, pageId) {
+            event.preventDefault();
+            
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            if (pageId === 'user-management') {
+                renderUsers();
+            }
+            lucide.createIcons();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('dashboard').classList.remove('hidden');
+
+            // Setup delete modal listeners
+            const confirmBtn = document.getElementById('confirm-delete-btn');
+
+            confirmBtn.onclick = () => {
+                if (userIdToDelete !== null) {
+                    users = users.filter(u => u.id !== userIdToDelete);
+                    renderUsers();
+                    hideModal('delete-modal');
+                    userIdToDelete = null;
+                }
+            };
+
+        });
+    </script>
+</body>
+</html>

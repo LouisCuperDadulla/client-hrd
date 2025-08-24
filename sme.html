@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJMP HRIS - DHRD SME Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link.active {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        .tab-link.active {
+            border-bottom-color: #2563eb;
+            color: #2563eb;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+        .calendar-day {
+            min-height: 120px;
+        }
+        .info-value {
+            font-weight: 500;
+            color: #1f2937;
+        }
+        .info-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+        }
+        .filter-btn.active {
+            background-color: #2563eb;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div class="hidden md:flex flex-col w-64 bg-gray-800">
+            <div class="flex items-center justify-center h-20 shadow-md bg-white">
+                <img src="https://placehold.co/150x50/003366/FFFFFF?text=BJMP+Logo" alt="BJMP Logo" class="h-12">
+            </div>
+            <div class="flex flex-col flex-1 overflow-y-auto">
+                <nav class="flex-1 px-2 py-4 bg-blue-900">
+                    <a href="#dashboard" class="sidebar-link flex items-center px-4 py-2 text-gray-100 hover:bg-blue-700 rounded-md active" onclick="navigate(event, 'dashboard')">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="#schedule" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'schedule')">
+                        <i data-lucide="calendar" class="w-5 h-5 mr-3"></i>
+                        My Schedule
+                    </a>
+                    <a href="#evaluations" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'evaluations')">
+                        <i data-lucide="star" class="w-5 h-5 mr-3"></i>
+                        My Evaluations
+                    </a>
+                    <a href="#profile" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'profile')">
+                        <i data-lucide="user-circle" class="w-5 h-5 mr-3"></i>
+                        My Profile
+                    </a>
+                     <a href="#resources" class="sidebar-link flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-blue-700 rounded-md" onclick="navigate(event, 'resources')">
+                        <i data-lucide="folder-open" class="w-5 h-5 mr-3"></i>
+                        Resource Library
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <div class="flex items-center justify-between h-20 bg-white border-b border-gray-200 px-6">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-semibold text-gray-800">SME Portal</h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-4 flex items-center">
+                        <div class="flex flex-col text-right">
+                           <span class="font-semibold text-sm text-gray-700">JSSUPT Jose Rizal</span>
+                           <span class="text-xs text-gray-500">Role: Subject Matter Expert</span>
+                        </div>
+                        <img id="header-avatar" class="w-10 h-10 ml-3 rounded-full object-cover" src="https://placehold.co/100x100/E2E8F0/475569?text=JR" alt="User Avatar">
+                    </div>
+                     <button class="ml-6 text-gray-500 hover:text-red-600">
+                        <i data-lucide="log-out" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <main class="p-6 md:p-8">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome, JSSUPT Rizal!</h2>
+                    <p class="text-gray-600 mb-8">Here is a summary of your upcoming activities and performance.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Upcoming Engagements</p>
+                            <p class="text-3xl font-bold text-gray-800">3</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Total Engagements (YTD)</p>
+                            <p class="text-3xl font-bold text-gray-800">15</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Average Rating</p>
+                            <p class="text-3xl font-bold text-yellow-500">4.8 / 5.0</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Upcoming Schedule -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Schedule</h3>
+                            <div class="space-y-4">
+                               <div class="flex items-start p-4 bg-blue-50 rounded-lg">
+                                    <div class="p-2 bg-blue-100 rounded-md"><i data-lucide="shield" class="w-5 h-5 text-blue-600"></i></div>
+                                    <div class="ml-3">
+                                        <p class="font-semibold text-gray-700">Jail Security and Risk Management</p>
+                                        <p class="text-sm text-gray-500">Date: 05 Sep 2025</p>
+                                        <p class="text-sm text-gray-500">Time: 0900H - 1100H</p>
+                                    </div>
+                               </div>
+                               <div class="flex items-start p-4 bg-blue-50 rounded-lg">
+                                    <div class="p-2 bg-blue-100 rounded-md"><i data-lucide="briefcase" class="w-5 h-5 text-blue-600"></i></div>
+                                    <div class="ml-3">
+                                        <p class="font-semibold text-gray-700">Advanced Administrative Procedures</p>
+                                        <p class="text-sm text-gray-500">Date: 20 Oct 2025</p>
+                                        <p class="text-sm text-gray-500">Time: 1300H - 1500H</p>
+                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                        <!-- Recent Evaluations -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Participant Feedback</h3>
+                             <div class="space-y-4">
+                                <div class="p-4 bg-slate-50 rounded-lg">
+                                    <p class="text-sm text-gray-800 italic">"JSSUPT Rizal is an excellent instructor. The topic was explained clearly and was very engaging."</p>
+                                    <p class="text-xs text-right text-gray-500 mt-2">- Participant from Leadership Training</p>
+                                </div>
+                                 <div class="p-4 bg-slate-50 rounded-lg">
+                                    <p class="text-sm text-gray-800 italic">"Very knowledgeable and approachable. I learned a lot from the session."</p>
+                                    <p class="text-xs text-right text-gray-500 mt-2">- Participant from Crisis Management Seminar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Schedule Page -->
+                <div id="schedule" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">My Schedule</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <button onclick="changeMonth(-1)" class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="chevron-left"></i></button>
+                                <h3 id="calendar-month-year" class="text-xl font-semibold"></h3>
+                                <button onclick="changeMonth(1)" class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid border-t border-l">
+                                <!-- Calendar Header -->
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Sun</div>
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Mon</div>
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Tue</div>
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Wed</div>
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Thu</div>
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Fri</div>
+                                <div class="text-center font-semibold py-2 border-r border-b bg-gray-50">Sat</div>
+                            </div>
+                            <div id="calendar-body" class="calendar-grid border-l"></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">New Engagement Requests</h3>
+                            <div id="request-container" class="space-y-4">
+                                <div id="request-1" class="border rounded-lg p-4">
+                                    <p class="font-semibold text-gray-800">Crisis Management Seminar</p>
+                                    <p class="text-sm text-gray-500">Date: 15 Nov 2025</p>
+                                    <div class="mt-3 flex space-x-2">
+                                        <button onclick="acceptRequest('request-1')" class="w-full px-3 py-1 text-sm text-white bg-green-600 rounded-md hover:bg-green-700">Accept</button>
+                                        <button onclick="declineRequest('request-1')" class="w-full px-3 py-1 text-sm text-white bg-red-600 rounded-md hover:bg-red-700">Decline</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- My Evaluations Page -->
+                <div id="evaluations" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">My Evaluations</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Average Overall Rating</p>
+                            <p class="text-3xl font-bold text-yellow-500">4.8 / 5.0</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Total Evaluations Received</p>
+                            <p class="text-3xl font-bold text-gray-800">128</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Highest Rated Session</p>
+                            <p class="text-xl font-bold text-gray-800">Leadership Training</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Detailed Evaluation Breakdown</h3>
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase">Course Title</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase">Date Conducted</th>
+                                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase">Average Rating</th>
+                                    <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="py-4 px-6 font-medium">Leadership Training</td>
+                                    <td class="py-4 px-6 text-gray-500">05 Aug 2025</td>
+                                    <td class="py-4 px-6 font-semibold text-yellow-500">4.9 / 5.0</td>
+                                    <td class="py-4 px-6 text-center"><button onclick="showModal('evaluation-details-modal')" class="text-indigo-600 hover:text-indigo-900 font-medium">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 px-6 font-medium">Crisis Management Seminar</td>
+                                    <td class="py-4 px-6 text-gray-500">15 Jul 2025</td>
+                                    <td class="py-4 px-6 font-semibold text-yellow-500">4.7 / 5.0</td>
+                                    <td class="py-4 px-6 text-center"><button onclick="showModal('evaluation-details-modal')" class="text-indigo-600 hover:text-indigo-900 font-medium">View Details</button></td>
+                                </tr>
+                                 <tr>
+                                    <td class="py-4 px-6 font-medium">Jail Security Refresher</td>
+                                    <td class="py-4 px-6 text-gray-500">10 Jun 2025</td>
+                                    <td class="py-4 px-6 font-semibold text-yellow-500">4.8 / 5.0</td>
+                                    <td class="py-4 px-6 text-center"><button onclick="showModal('evaluation-details-modal')" class="text-indigo-600 hover:text-indigo-900 font-medium">View Details</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- My Profile Page -->
+                <div id="profile" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">My SME Profile</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2">
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <div id="profile-view-mode">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-xl font-semibold">My Information</h3>
+                                        <button onclick="toggleEditMode(true)" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center"><i data-lucide="edit" class="w-4 h-4 mr-2"></i>Edit Profile</button>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="relative">
+                                            <img id="profile-avatar" class="w-32 h-32 rounded-full object-cover" src="https://placehold.co/128x128/E2E8F0/475569?text=JR" alt="User Avatar">
+                                            <label for="avatar-upload" class="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700">
+                                                <i data-lucide="camera" class="w-5 h-5 text-white"></i>
+                                            </label>
+                                            <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="previewAvatar(event)">
+                                        </div>
+                                        <div class="ml-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            <div><p class="text-sm text-gray-500">Last Name</p><p class="info-value" data-field="lastName">Rizal</p></div>
+                                            <div><p class="text-sm text-gray-500">First Name</p><p class="info-value" data-field="firstName">Jose</p></div>
+                                            <div><p class="text-sm text-gray-500">Middle Name</p><p class="info-value" data-field="middleName">Protacio</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                        <div><p class="text-sm text-gray-500">Email</p><p class="info-value" data-field="email">j.rizal@bjmp.gov.ph</p></div>
+                                        <div><p class="text-sm text-gray-500">SME Classification</p><p class="info-value" data-field="classification">Level III - National</p></div>
+                                        <div class="md:col-span-2"><p class="text-sm text-gray-500">Areas of Expertise</p><p class="info-value" data-field="expertise">Leadership, Crisis Management, Jail Security</p></div>
+                                    </div>
+                                </div>
+                                <div id="profile-edit-mode" class="hidden">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-xl font-semibold">Editing My Information</h3>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-b pb-6 mb-6">
+                                        <div><label class="text-sm text-gray-500">Last Name</label><input type="text" class="info-input" data-field="lastName" value="Rizal"></div>
+                                        <div><label class="text-sm text-gray-500">First Name</label><input type="text" class="info-input" data-field="firstName" value="Jose"></div>
+                                        <div><label class="text-sm text-gray-500">Middle Name</label><input type="text" class="info-input" data-field="middleName" value="Protacio"></div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div><label class="text-sm text-gray-500">Email</label><input type="email" class="info-input" data-field="email" value="j.rizal@bjmp.gov.ph"></div>
+                                        <div><label class="text-sm text-gray-500">SME Classification</label><input type="text" class="info-input" data-field="classification" value="Level III - National" disabled></div>
+                                        <div class="md:col-span-2"><label class="text-sm text-gray-500">Areas of Expertise</label><input type="text" class="info-input" data-field="expertise" value="Leadership, Crisis Management, Jail Security"></div>
+                                    </div>
+                                    <div class="flex justify-end space-x-4 mt-6">
+                                        <button onclick="toggleEditMode(false)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Cancel</button>
+                                        <button onclick="saveProfile()" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm mt-8">
+                                <h3 class="text-xl font-semibold mb-4">My Documents</h3>
+                                <ul id="sme-document-list" class="space-y-3">
+                                    <li class="flex items-center justify-between p-3 bg-slate-50 rounded-md">
+                                        <div class="flex items-center"><i data-lucide="file-text" class="w-5 h-5 text-blue-600 mr-3"></i><span class="font-medium">SME_Accreditation_Level_III.pdf</span></div>
+                                        <button class="text-sm text-blue-600 hover:underline">View</button>
+                                    </li>
+                                     <li class="flex items-center justify-between p-3 bg-slate-50 rounded-md">
+                                        <div class="flex items-center"><i data-lucide="file-text" class="w-5 h-5 text-blue-600 mr-3"></i><span class="font-medium">Updated_PDS_2025.pdf</span></div>
+                                        <button class="text-sm text-blue-600 hover:underline">View</button>
+                                    </li>
+                                </ul>
+                                <button onclick="showModal('upload-sme-document-modal')" class="mt-4 w-full px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200 flex items-center justify-center"><i data-lucide="upload" class="w-4 h-4 mr-2"></i>Upload New Document</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                             <h3 class="text-lg font-semibold text-gray-800 mb-4">Reclassification</h3>
+                             <p class="text-sm text-gray-600 mb-4">You are currently at the highest classification level. No further reclassification is available.</p>
+                             <button class="w-full px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-md cursor-not-allowed" disabled>Apply for Reclassification</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Library Page -->
+                <div id="resources" class="page hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Resource Library</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex space-x-2">
+                                <button onclick="filterResources('all', this)" class="filter-btn px-4 py-2 text-sm font-medium rounded-md active">All</button>
+                                <button onclick="filterResources('module', this)" class="filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Modules</button>
+                                <button onclick="filterResources('manual', this)" class="filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Manuals</button>
+                                <button onclick="filterResources('policy', this)" class="filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Policies</button>
+                            </div>
+                            <div class="w-1/3">
+                                <input id="resource-search-input" type="text" placeholder="Search resources..." onkeyup="searchResources()" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <ul id="resource-list" class="space-y-3">
+                            <li data-category="module" class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">Leadership Training Module.pdf</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                            <li data-category="manual" class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">DHRD Manual 2025 Edition.pdf</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                             <li data-category="policy" class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">SME Policy Guidelines.pdf</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                             <li data-category="module" class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">Crisis Management Module.pdf</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                             <li data-category="manual" class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">Performance Evaluation Manual.pdf</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                             <li data-category="policy" class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                                    <span class="ml-4 font-medium text-gray-800">Code of Conduct Policy.pdf</span>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200">Download</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Evaluation Details Modal -->
+    <div id="evaluation-details-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center z-50">
+        <div class="relative mx-auto p-8 border w-full max-w-3xl shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800">Evaluation Details</h3>
+                    <p class="text-gray-600">Leadership Training - 05 Aug 2025</p>
+                </div>
+                <button onclick="hideModal('evaluation-details-modal')" class="p-2 rounded-full hover:bg-gray-200">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Average Ratings</h4>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Course Content</span>
+                            <span class="font-bold text-yellow-500">4.9 / 5.0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Instructor Effectiveness</span>
+                            <span class="font-bold text-yellow-500">5.0 / 5.0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Training Materials</span>
+                            <span class="font-bold text-yellow-500">4.8 / 5.0</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Participant Comments</h4>
+                    <div class="space-y-4 max-h-64 overflow-y-auto pr-4">
+                        <div class="p-4 bg-slate-50 rounded-lg">
+                            <p class="text-sm text-gray-800 italic">"An outstanding session. The instructor was engaging and made complex topics easy to understand."</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg">
+                            <p class="text-sm text-gray-800 italic">"Highly relevant to my duties. I can immediately apply what I've learned."</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg">
+                            <p class="text-sm text-gray-800 italic">"The training materials were very helpful. I wish we had more time for the Q&A session."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="flex justify-end mt-8">
+                <button onclick="hideModal('evaluation-details-modal')" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload SME Document Modal -->
+    <div id="upload-sme-document-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center z-50">
+        <div class="relative mx-auto p-8 border w-full max-w-lg shadow-lg rounded-md bg-white">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">Upload New Document</h3>
+            <form id="upload-sme-form" onsubmit="handleSmeDocumentUpload(event)">
+                <div class="space-y-6">
+                    <div>
+                        <label for="sme-document-type" class="block text-sm font-medium text-gray-700">Document Type</label>
+                        <select id="sme-document-type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>New Certification</option>
+                            <option>Updated PDS</option>
+                            <option>Training Certificate</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="sme-document-file" class="block text-sm font-medium text-gray-700">File</label>
+                        <input type="file" id="sme-document-file" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required/>
+                    </div>
+                    <div>
+                        <label for="sme-document-description" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                        <textarea id="sme-document-description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Add a brief note about the document..."></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-8 space-x-4">
+                    <button type="button" onclick="hideModal('upload-sme-document-modal')" class="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Cancel</button>
+                    <button type="submit" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentMonth = 8; // September (0-indexed)
+        let currentYear = 2025;
+        const engagements = {
+            '2025-8-5': { title: 'Jail Security' },
+            '2025-9-20': { title: 'Admin Procedures' }
+        };
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+
+        function navigate(event, pageId) {
+            event.preventDefault();
+            
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            if (pageId === 'schedule') {
+                renderCalendar();
+            }
+            lucide.createIcons();
+        }
+        
+        function renderCalendar() {
+            const calendarBody = document.getElementById('calendar-body');
+            const monthYear = document.getElementById('calendar-month-year');
+            calendarBody.innerHTML = '';
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('calendar-day', 'p-2', 'border-r', 'border-b', 'text-gray-400');
+                        calendarBody.appendChild(cell);
+                    } else if (date > daysInMonth) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('calendar-day', 'p-2', 'border-r', 'border-b', 'text-gray-400');
+                        calendarBody.appendChild(cell);
+                    } else {
+                        const cell = document.createElement('div');
+                        cell.classList.add('calendar-day', 'p-2', 'border-r', 'border-b');
+                        cell.innerHTML = `<span class="font-semibold">${date}</span>`;
+                        
+                        const engagementKey = `${currentYear}-${currentMonth}-${date}`;
+                        if (engagements[engagementKey]) {
+                            cell.classList.add('bg-blue-50');
+                            const eventDiv = document.createElement('div');
+                            eventDiv.classList.add('mt-1', 'text-xs', 'bg-blue-200', 'text-blue-800', 'p-1', 'rounded-md', 'truncate');
+                            eventDiv.textContent = engagements[engagementKey].title;
+                            cell.appendChild(eventDiv);
+                        }
+                        calendarBody.appendChild(cell);
+                        date++;
+                    }
+                }
+            }
+        }
+
+        function changeMonth(offset) {
+            currentMonth += offset;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function acceptRequest(requestId) {
+            const requestElement = document.getElementById(requestId);
+            if (requestElement) {
+                requestElement.remove();
+                engagements['2025-10-15'] = { title: 'Crisis Mgmt' };
+                alert("Request accepted and added to your schedule for November.");
+                if (document.getElementById('schedule').classList.contains('page') && !document.getElementById('schedule').classList.contains('hidden')) {
+                    renderCalendar();
+                }
+            }
+        }
+
+        function declineRequest(requestId) {
+             const requestElement = document.getElementById(requestId);
+             if (requestElement) {
+                requestElement.remove();
+                alert("Request declined.");
+            }
+        }
+        
+        function toggleEditMode(isEditing) {
+            const viewMode = document.getElementById('profile-view-mode');
+            const editMode = document.getElementById('profile-edit-mode');
+            if (isEditing) {
+                viewMode.classList.add('hidden');
+                editMode.classList.remove('hidden');
+            } else {
+                viewMode.classList.remove('hidden');
+                editMode.classList.add('hidden');
+            }
+        }
+
+        function saveProfile() {
+            const inputs = document.querySelectorAll('#profile-edit-mode .info-input');
+            inputs.forEach(input => {
+                const fieldName = input.dataset.field;
+                const displayElement = document.querySelector(`#profile-view-mode .info-value[data-field="${fieldName}"]`);
+                if (displayElement) {
+                    displayElement.textContent = input.value;
+                }
+            });
+            toggleEditMode(false);
+        }
+        
+        function handleSmeDocumentUpload(event) {
+            event.preventDefault();
+            const docFile = document.getElementById('sme-document-file').files[0];
+            const fileName = docFile ? docFile.name : "New Document.pdf";
+
+            const docList = document.getElementById('sme-document-list');
+            const newDocItem = document.createElement('li');
+            newDocItem.className = 'flex items-center justify-between p-3 bg-slate-50 rounded-md';
+            newDocItem.innerHTML = `
+                <div class="flex items-center">
+                    <i data-lucide="file-text" class="w-5 h-5 text-blue-600 mr-3"></i>
+                    <span class="font-medium">${fileName}</span>
+                </div>
+                <button class="text-sm text-blue-600 hover:underline">View</button>
+            `;
+            docList.appendChild(newDocItem);
+            
+            hideModal('upload-sme-document-modal');
+            document.getElementById('upload-sme-form').reset();
+            lucide.createIcons();
+        }
+
+        function previewAvatar(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('profile-avatar');
+                const headerOutput = document.getElementById('header-avatar');
+                output.src = reader.result;
+                headerOutput.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function searchResources() {
+            const searchInput = document.getElementById('resource-search-input');
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.category;
+            const resourceList = document.getElementById('resource-list');
+            const items = resourceList.getElementsByTagName('li');
+
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const category = item.dataset.category;
+                const title = item.querySelector('span').textContent.toLowerCase();
+
+                const matchesCategory = activeFilter === 'all' || category === activeFilter;
+                const matchesSearch = title.includes(searchTerm);
+
+                if (matchesCategory && matchesSearch) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        }
+
+        function filterResources(category, buttonElement) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            buttonElement.classList.add('active', 'bg-blue-600', 'text-white');
+            buttonElement.classList.remove('bg-gray-100', 'text-gray-700');
+            
+            buttons.forEach(btn => btn.removeAttribute('data-category'));
+            buttonElement.setAttribute('data-category', category);
+
+            searchResources();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('dashboard').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
