@@ -495,12 +495,6 @@
         </div>
     </div>
 
-    <!-- Success Toast -->
-    <div id="success-toast" class="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hidden flex items-center z-50">
-        <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i>
-        <span id="toast-message"></span>
-    </div>
-
     <script>
         function navigate(event, pageId) {
             event.preventDefault();
@@ -614,17 +608,21 @@
         }
 
         function showToast(message) {
-            const toast = document.getElementById('success-toast');
-            const toastMessage = document.getElementById('toast-message');
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md flex items-center z-50';
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i>
+                <span>${message}</span>
+            `;
 
-            toastMessage.textContent = message;
-            toast.classList.remove('hidden');
-            toast.classList.add('flex');
+            // Append to body
+            document.body.appendChild(toast);
             lucide.createIcons();
 
+            // Remove after 2 seconds
             setTimeout(() => {
-                toast.classList.add('hidden');
-                toast.classList.remove('flex');
+                document.body.removeChild(toast);
             }, 2000);
         }
     </script>
