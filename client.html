@@ -429,9 +429,14 @@
                 <div id="profile" class="page hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-gray-800">My Profile</h2>
-                        <button id="edit-profile-btn" onclick="toggleProfileEdit()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center">
-                            <i data-lucide="edit-3" class="w-4 h-4 mr-2"></i><span id="edit-btn-text">Edit Profile</span>
-                        </button>
+                        <div class="flex">
+                            <button onclick="navigate(event, 'dashboard')" class="px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 flex items-center mr-2">
+                                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>Back to Dashboard
+                            </button>
+                            <button id="edit-profile-btn" onclick="toggleProfileEdit()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center">
+                                <i data-lucide="edit-3" class="w-4 h-4 mr-2"></i><span id="edit-btn-text">Edit Profile</span>
+                            </button>
+                        </div>
                     </div>
                      <div class="bg-white p-8 rounded-lg shadow-sm">
                         <h3 class="text-xl font-semibold mb-6">Personnel Information</h3>
@@ -480,6 +485,12 @@
                 </div>
             </main>
         </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="success-toast" class="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hidden flex items-center z-50">
+        <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i>
+        <span id="toast-message"></span>
     </div>
 
     <script>
@@ -559,6 +570,7 @@
                     const editEl = document.getElementById(`${field}-input`);
                     viewEl.textContent = editEl.value;
                 }
+                showToast('Save successfully');
             }
 
             const editBtnText = document.getElementById('edit-btn-text');
@@ -572,6 +584,21 @@
                 editBtnIcon.setAttribute('data-lucide', 'edit-3');
             }
             lucide.createIcons();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('success-toast');
+            const toastMessage = document.getElementById('toast-message');
+
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
         }
     </script>
 </body>
